@@ -1,7 +1,9 @@
 class AccumulateText:
+    # takes submission dataclass
     def __init__(self, submission):
         self.submission = submission
 
+    # accumulates title and body text, if body text exits
     def accumulate_text_standard(self):
         text = ""
         text += self.submission.title
@@ -11,10 +13,12 @@ class AccumulateText:
         print(self.submission.text)
         return text
 
+    # accumulates all top comments stored in object
     def accumulate_text_top_reply(self):
         ret_list = []
         text = ""
         authors = []
+        # stores authors for later display
         text += self.submission.title
         text += "..."
         for comment in self.submission.get_top():
@@ -25,9 +29,11 @@ class AccumulateText:
         ret_list.append(authors)
         return ret_list
 
+    # accumulates all controversial posts stored in object
     def accumulate_text_controversial_reply(self):
         ret_list = []
         text = ""
+        # stores authors for later display
         authors = []
         text += self.submission.title
         text += "..."
@@ -38,23 +44,3 @@ class AccumulateText:
         ret_list.append(text)
         ret_list.append(authors)
         return ret_list
-
-
-# text_subs = Scrape.RedditScraper("AskReddit", 2)
-# sub_list = text_subs.scrape_submissions(2, 2)
-# print(sub_list)
-# accumulator = AccumulateText(sub_list[0])
-#
-# text = accumulator.accumulate_text_standard()
-# tts = gTTS(text)
-# tts.save('test_standard.mp3')
-#
-# text = accumulator.accumulate_text_top_reply()
-# tts = gTTS(text[0])
-# tts.save("test_top.mp3")
-#
-# text = accumulator.accumulate_text_controversial_reply()
-# tts = gTTS(text[0])
-# tts.save("test_controversial.mp3")
-#
-# print("Done!")
