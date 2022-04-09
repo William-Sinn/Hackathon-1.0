@@ -146,16 +146,16 @@ class RedditScraper:
         return submission_list
 
 
-scraper = RedditScraper("AskReddit", 2)
-
-curr_submission_list = scraper.scrape_submissions(2, 2)
-
-print(curr_submission_list)
-
-for submissions in curr_submission_list:
-    print(submissions)
-    for comment in submissions.get_top():
-        print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
-
-    for comment in submissions.get_controversial():
-        print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
+# scraper = RedditScraper("AskReddit", 2)
+#
+# curr_submission_list = scraper.scrape_submissions(2, 2)
+#
+# print(curr_submission_list)
+#
+# for submissions in curr_submission_list:
+#     print(submissions)
+#     for comment in submissions.get_top():
+#         print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
+#
+#     for comment in submissions.get_controversial():
+#         print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
