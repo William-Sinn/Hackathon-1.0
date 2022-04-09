@@ -80,7 +80,6 @@ class RedditScraper:
             # initializes submission
             curr_submission = Submission()
             curr_submission.set_title(submission.title)
-            print(curr_submission.get_title())
 
             # checks if submission has body text
             try:

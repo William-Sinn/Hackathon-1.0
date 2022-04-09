@@ -8,40 +8,43 @@ class VideoMaker:
         self.video = VideoFileClip(video)
 
     # creates a video from title and body text, if it exists
-    def create_video_standard(self, text):
+    def create_video_standard(self, text, index):
+        index = str(index)
         # saves the given text to audio file
         tts = gTTS(text)
-        tts.save("Audio/standard_audio.mp3")
-        audio = AudioFileClip("Audio/standard_audio.mp3")
+        tts.save("Audio/standard_audio" + index + ".mp3")
+        audio = AudioFileClip("Audio/standard_audio" + index + ".mp3")
 
         # takes generated audio file and creates looping video
         video = self.video
         video = video.set_audio(audio)
         video = video.loop(duration=audio.duration)
-        video.write_videofile("Output/standard_video.mp4", fps=60)
+        video.write_videofile("Output/standard_video" + index + ".mp4", fps=60)
 
     # creates a video from top comments
-    def create_video_top(self, text):
+    def create_video_top(self, text, index):
+        index = str(index)
         # saves the given text to audio file
         tts = gTTS(text)
-        tts.save("Audio/top_audio.mp3")
-        audio = AudioFileClip("Audio/top_audio.mp3")
+        tts.save("Audio/top_audio" + index + ".mp3")
+        audio = AudioFileClip("Audio/top_audio" + index + ".mp3")
 
         # takes generated audio file and creates looping video
         video = self.video
         video = video.set_audio(audio)
         video = video.loop(duration=audio.duration)
-        video.write_videofile("Output/top_video.mp4", fps=60)
+        video.write_videofile("Output/top_video" + index + ".mp4", fps=60)
 
     # creates a video from controversial comments
-    def create_video_controversial(self, text):
+    def create_video_controversial(self, text, index):
+        index = str(index)
         # saves the given text to audio file
         tts = gTTS(text)
-        tts.save("Audio/controversial_audio.mp3")
-        audio = AudioFileClip("Audio/controversial_audio.mp3")
+        tts.save("Audio/controversial_audio" + index + ".mp3")
+        audio = AudioFileClip("Audio/controversial_audio" + index + ".mp3")
 
         # takes generated audio file and creates looping video
         video = self.video
         video = video.set_audio(audio)
         video = video.loop(duration=audio.duration)
-        video.write_videofile("Output/controversial_video.mp4", fps=60)
+        video.write_videofile("Output/controversial_video" + index + ".mp4", fps=60)
