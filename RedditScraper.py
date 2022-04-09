@@ -75,7 +75,7 @@ class RedditScraper:
         submission_list = []
 
         # pulls "submissions" number of submissions from the subreddit
-        for submission in self.sub_reddit.hot(limit=self.submissions):
+        for submission in self.sub_reddit.top("day", limit=self.submissions):
 
             # initializes submission
             curr_submission = Submission()
@@ -84,8 +84,7 @@ class RedditScraper:
 
             # checks if submission has body text
             try:
-                curr_submission.set_text(submission.text)
-                print(curr_submission.get_text())
+                curr_submission.set_text(submission.selftext)
             except AttributeError:
                 pass
 

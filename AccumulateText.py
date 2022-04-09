@@ -8,6 +8,7 @@ class AccumulateText:
         text += "..."
         if self.submission.text is not None:
             text += self.submission.text
+        print(self.submission.text)
         return text
 
     def accumulate_text_top_reply(self):
