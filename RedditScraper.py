@@ -47,7 +47,7 @@ class Submission:
     def set_controversial(self, controversial):
         self.controversial = controversial
 
-    def get_top_controversial(self):
+    def get_controversial(self):
         return self.controversial
     """ 
     *************************
@@ -57,7 +57,7 @@ class Submission:
 
     # __str__ method for easy printing
     def __str__(self):
-        print_string = f"""Title: {self.title}\nText: {self.text}\nTop Hot: {self.top}\nTop Controversial: {self.controversial}"""
+        print_string = f"""\nTitle: {self.title}\nText: {self.text}\nTop Hot: {self.top}\nTop Controversial: {self.controversial}\n"""
         return print_string
 
 
@@ -66,10 +66,10 @@ class RedditScraper:
         self.sub_reddit = reddit.subreddit(sub_reddit)
         self.submissions = submissions
 
-    def start_stream(self):
-        curr_submission = Submission()
+    def start_stream(self, top_num, controversial_num):
         submission_list = []
         for submission in self.sub_reddit.hot(limit=self.submissions):
+            curr_submission = Submission()
             curr_submission.set_title(submission.title)
             print(curr_submission.get_title())
 
@@ -78,32 +78,52 @@ class RedditScraper:
                 print(curr_submission.get_text())
             except AttributeError:
                 pass
+            submission_master = reddit.submission(url=submission.url)
+            top_comments = []
+            top_comments_submission = copy.deepcopy(submission_master)
+            top_comments_submission.comment_sort = "top"
+            i = 0
+            i2 = 0
+            while i < top_num:
+                if not isinstance(i, MoreComments):
+                    if not top_comments_submission.comments[i2].body == "[deleted]":
+                        top_comments.append(top_comments_submission.comments[i2])
+                        i += 1
+                        i2 += 1
+                    else:
+                        i2 += 1
+                else:
+                    i2 += 1
+            curr_submission.set_top(top_comments)
 
-            submission_top = copy.deepcopy(submission)
-            submission_controversial = copy.deepcopy(submission)
-
-            submission_top.comment_sort = "top"
-            top_list = []
-            for i in range(3):
-                top_list.append(submission_top.comments[i])
-            curr_submission.set_top(top_list)
-
-            submission_controversial.comment_sort = "controversial"
-            controversial_list = []
-            for i in range(3):
-                controversial_list.append(submission_controversial.comments[i])
-            curr_submission.set_controversial(top_list)
+            controversial_comments = []
+            controversial_comments_submission = copy.deepcopy(submission_master)
+            controversial_comments_submission.comment_sort = "controversial"
+            i = 0
+            i2 = 0
+            while i < controversial_num:
+                if not isinstance(i, MoreComments):
+                    if not controversial_comments_submission.comments[i2].body == "[deleted]":
+                        controversial_comments.append(controversial_comments_submission.comments[i2])
+                        i += 1
+                        i2 += 1
+                    else:
+                        i2 += 1
+                else:
+                    i2 += 1
+            curr_submission.set_controversial(controversial_comments)
 
             submission_list.append(curr_submission)
-
         return submission_list
 
 
 scraper = RedditScraper("AskReddit", 2)
-submission_list = scraper.start_stream()
-print(submission_list)
-for submissions in submission_list:
+curr_submission_list = scraper.start_stream(2, 2)
+print(curr_submission_list)
+for submissions in curr_submission_list:
     print(submissions)
     for comment in submissions.get_top():
-        if not isinstance(comment, MoreComments):
-            print(f"Author: {comment.author}\nBody: {comment.body}")
+        print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
+
+    for comment in submissions.get_controversial():
+        print(f"\nAuthor: {comment.author}\nBody: {comment.body}\n")
